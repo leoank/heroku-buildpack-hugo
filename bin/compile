@@ -18,7 +18,7 @@ DEFAULT_HUGO_VERSION="0.26"
 
 # attempt to extract the HUGO_BUILD_DIR parameter from the Heroku configuration vars, fall back to the default if unavailable
 if [ -d "$ENV_DIR" -a -e "$ENV_DIR/HUGO_BUILD_DIR" ]; then
-  export BUILD_DIR=$(cat "$ENV_DIR/HUGO_BUILD_DIR")
+  export BUILD_DIR=$1/$(cat "$ENV_DIR/HUGO_BUILD_DIR")
 else
   echo "\n-----> HUGO_BUILD_DIR not defined, using $1."
   export BUILD_DIR=$1
