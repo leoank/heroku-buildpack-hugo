@@ -16,6 +16,14 @@ ENV_DIR=$3
 # Default Hugo version
 DEFAULT_HUGO_VERSION="0.26"
 
+# attempt to extract the HUGO_BUILD_DIR parameter from the Heroku configuration vars, fall back to the default if unavailable
+if [ -d "$ENV_DIR" -a -e "$ENV_DIR/HUGO_BUILD_DIR" ]; then
+  export BUILD_DIR=$(cat "$ENV_DIR/HUGO_BUILD_DIR")
+else
+  echo "\n-----> HUGO_BUILD_DIR not defined, using $1."
+  export BUILD_DIR=$1
+fi
+
 # attempt to extract the HUGO_VERSION parameter form the Heroku configuration vars, fall back to the default version if unavailable
 if [ -d "$ENV_DIR" -a -e "$ENV_DIR/HUGO_VERSION" ]; then
   export HUGO_VERSION=$(cat "$ENV_DIR/HUGO_VERSION")
@@ -53,5 +61,4 @@ fi
 # Build the site
 echo "\n-----> Building the site"
 cd $BUILD_DIR
-mkdir -p static | indent
 ./hugo | indent
